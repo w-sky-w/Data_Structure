@@ -44,7 +44,34 @@ void in_to_post(string infix) {
     int size = infix.length();
     stack<char> post_stack;
     post_stack.push('#');
-    for (int i = 0; i < size; i++) {
+    int index = 0;
+    while (index < size && !post_stack.empty()) {
+        char ch = infix[index];
+        if (!isop(ch)) {//if ch is a number, then directly cout
+            cout << ch - '0';
+            index++;
+        }
+        else {
+            char op = post_stack.top();
+            if (icp(ch) > isp(op)) {//if the coming operator > stack operator, in stack
+                post_stack.push(ch);
+                index++;
+                continue;
+            }
+            else if (icp(ch) < isp(op)) {//if the coming operator < stack operator, pop and cout
+                cout << post_stack.top();
+                post_stack.pop();
+                continue;
+            }
+            else {//if the coming operator == stack operator, pop but not cout, if pop '(', continue
+                char pop = post_stack.top();
+                post_stack.pop();
+                if (pop == '(')
+                    index++;
+            }
+        }
+    }
+    /*for (int i = 0; i < size; i++) {
         char ch = infix[i];
         if (!isop(ch))//if ch is a number, then directly cout
             cout << infix[i] - '0';
@@ -66,7 +93,7 @@ void in_to_post(string infix) {
                     continue;
             }
         }
-    }
+    }*/
 }
 
 int main() {
