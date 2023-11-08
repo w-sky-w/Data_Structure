@@ -77,7 +77,30 @@ void SparseMatrix::input(vector<vector<int> > elements) {
 }
 
 void SparseMatrix::Transpose(SparseMatrix& other) {
-
+    int* rowsize = new int[cols];
+    int* rowstart = new int[cols];
+    other.rows = cols;
+    other.cols = rows;
+    other.terms = terms;
+    if (terms > 0) {
+        int i, j;
+        for (i = 0; i < cols; i++) 
+            rowsize[i] = 0;
+        for (i = 0; i < terms; i++)
+            rowsize[elem[i].col]++;
+        rowstart[0] = 0;
+        for (i = 1; i < cols; i++)
+            rowstart[i] = rowstart[i - 1] + rowsize[i - 1];
+        for (i = 0; i < terms; i++) {
+            j = rowstart[elem[i].col];
+            other.elem[j].row = elem[i].col;
+            other.elem[j].col = elem[i].row;
+            other.elem[j].value = elem[i].value;
+            rowstart[elem[i].col]++;
+        }
+    }
+    delete []rowsize;
+    delete []rowstart;
 }
 
 int main() {
@@ -86,7 +109,10 @@ int main() {
                                   {2, 3, -6}, {3, 5, -17}, {4, 1, 9}, 
                                   {4, 4, 19}, {5, 3, 8}, {5, 6, -52}};
     SparseMatrix Matrix(100);
+    SparseMatrix transpose_matrix(100);
     Matrix.input(input);
     cout << Matrix;
+    Matrix.Transpose(transpose_matrix);
+    cout << transpose_matrix;
     return 0;
 }
