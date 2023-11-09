@@ -19,9 +19,10 @@ void getNext(string str, int* next) {
 	}
 	for (int i = 0; i < length; i++)
 		cout << next[i] << " ";
+	cout << endl;
 }
 
-int Find_KMP(string target, string patern, int k) {
+int Find_KMP(string target, string patern, int k) {//find patern in the target from the kth char
 	int posT = k, posP = 0;
 	int* next = new int[patern.length()];
 	getNext(patern, next);
@@ -44,5 +45,6 @@ int main() {
 	string tar, pat;
 	cin >> tar >> pat;
 	int pos = Find_KMP(tar, pat, 0);
+	cout << pos;
 	return 0;
 }
