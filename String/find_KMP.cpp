@@ -3,7 +3,7 @@
 
 using namespace std;
 
-//find_KMP aims to find the patern string in the target string
+//find_KMP aims to find the pattern string in the target string
 
 void getNext(string str, int* next) {
 	int j = 0, k = -1, length = str.length();
@@ -22,13 +22,13 @@ void getNext(string str, int* next) {
 	cout << endl;
 }
 
-int Find_KMP(string target, string patern, int k) {//find patern in the target from the kth char
+int Find_KMP(string target, string pattern, int k) {//find pattern in the target from the kth char
 	int posT = k, posP = 0;
-	int* next = new int[patern.length()];
-	getNext(patern, next);
-	int lengthT = target.length(), lengthP = patern.length();
+	int* next = new int[pattern.length()];
+	getNext(pattern, next);
+	int lengthT = target.length(), lengthP = pattern.length();
 	while (posP < lengthP && posT < lengthT) {
-		if (posP == -1 || patern[posP] == target[posT]) {
+		if (posP == -1 || pattern[posP] == target[posT]) {
 			posP++;
 			posT++;
 		}
