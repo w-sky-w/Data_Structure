@@ -21,6 +21,7 @@ protected:
     void createBinTree(char in[], TreeNode *&subtree);
     void PreOrder(TreeNode *subtree);
     void printBinTree(TreeNode *subtree);
+    void Traverse(TreeNode *subtree, int k);
 
 public:
     BinaryTree() : root(nullptr) {}
@@ -30,6 +31,7 @@ public:
     int Size() { return Size(root); }
     void createBinTree(char in[]) { createBinTree(in, root); }
     void printBinTree() { printBinTree(root); }
+    void Traverse() { Traverse(root, 1); }
     void PreOrder() { PreOrder(root); }
 };
 
@@ -111,6 +113,18 @@ void BinaryTree::printBinTree(TreeNode* subtree) {
     }
 }
 
+void BinaryTree::Traverse(TreeNode* subtree, int k) {
+    for (int i = 0; i < 5 * (k - 1); i++)
+        cout << ' ';
+    if (subtree != nullptr) {
+        cout << subtree->value << endl;
+        Traverse(subtree->left_child, k + 1);
+        Traverse(subtree->right_child, k + 1);
+    }
+    else
+        cout << '#' << endl;
+}
+
 void BinaryTree::PreOrder(TreeNode* subtree) {
     if (subtree != nullptr) {
         cout << subtree->value;
@@ -123,6 +137,10 @@ int main() {
     char in[] = {'A','(', 'B', '(', 'D', ',', 'E', '(', 'G', ',', ')', ')', ',', 'C', '(', ',', 'F', ')', ')', '#'};
     BinaryTree tree;
     tree.createBinTree(in);
+    cout << endl;
     tree.PreOrder();
-    tree.printBinTree();
+    cout << endl;
+    tree.printBinTree();    
+    cout << endl;
+    tree.Traverse();
 }
