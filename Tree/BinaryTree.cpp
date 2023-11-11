@@ -20,6 +20,7 @@ protected:
     int Size(TreeNode *subtree);
     void createBinTree(char in[], TreeNode *&subtree);
     void PreOrder(TreeNode *subtree);
+    void printBinTree(TreeNode *subtree);
 
 public:
     BinaryTree() : root(nullptr) {}
@@ -28,6 +29,7 @@ public:
     int Height() { return Height(root); }
     int Size() { return Size(root); }
     void createBinTree(char in[]) { createBinTree(in, root); }
+    void printBinTree() { printBinTree(root); }
     void PreOrder() { PreOrder(root); }
 };
 
@@ -95,6 +97,20 @@ void BinaryTree::createBinTree(char in[], TreeNode*& BT) {
     }
 }
 
+void BinaryTree::printBinTree(TreeNode* subtree) {
+    if (subtree != nullptr) {
+        cout << subtree->value;
+        if (subtree->left_child != nullptr || subtree->right_child != nullptr) {
+                cout << '(';
+                printBinTree(subtree->left_child);
+                cout << ',';
+                if (subtree->right_child != nullptr)
+                    printBinTree(subtree->right_child);
+                cout << ')';
+        }
+    }
+}
+
 void BinaryTree::PreOrder(TreeNode* subtree) {
     if (subtree != nullptr) {
         cout << subtree->value;
@@ -108,4 +124,5 @@ int main() {
     BinaryTree tree;
     tree.createBinTree(in);
     tree.PreOrder();
+    tree.printBinTree();
 }
