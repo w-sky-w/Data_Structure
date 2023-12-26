@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <queue>
 
 using namespace std;
 
@@ -19,7 +20,10 @@ protected:
     int Height(TreeNode *subtree);
     int Size(TreeNode *subtree);
     void createBinTree(char in[], TreeNode *&subtree);
+    //void createBinTree_Pre(char in[], TreeNode *&subtree, int n);
     void PreOrder(TreeNode *subtree);
+    void InOrder(TreeNode *subtree);
+    void PostOrder(TreeNode *subtree);
     void printBinTree(TreeNode *subtree);
     void Traverse(TreeNode *subtree, int k);
 
@@ -30,9 +34,13 @@ public:
     int Height() { return Height(root); }
     int Size() { return Size(root); }
     void createBinTree(char in[]) { createBinTree(in, root); }
+    //void createBinTree_Pre(char in[]) { createBinTree_Pre(in, root, 0); }
     void printBinTree() { printBinTree(root); }
     void Traverse() { Traverse(root, 1); }
     void PreOrder() { PreOrder(root); }
+    void InOrder() { InOrder(root); }
+    void PostOrder() { PostOrder(root); }
+    void LevelOrder();
 };
 
 void BinaryTree::destroy(TreeNode*& subtree) {
@@ -99,6 +107,19 @@ void BinaryTree::createBinTree(char in[], TreeNode*& BT) {
     }
 }
 
+/*void BinaryTree::createBinTree_Pre(char in[], TreeNode *&subtree, int n) {
+    char ch = in[n++];
+    if (ch == ';')
+        return;
+    if (ch != '#') {
+        subtree = new TreeNode(ch);
+        createBinTree_Pre(in, subtree->left_child, n);
+        createBinTree_Pre(in, subtree->right_child, n);
+    }
+    else
+        subtree = nullptr;
+}*/
+
 void BinaryTree::printBinTree(TreeNode* subtree) {
     if (subtree != nullptr) {
         cout << subtree->value;
@@ -133,13 +154,49 @@ void BinaryTree::PreOrder(TreeNode* subtree) {
     }
 }
 
+void BinaryTree::InOrder(TreeNode* subtree) {
+    if (subtree != nullptr) {
+        InOrder(subtree->left_child);
+        cout << subtree->value;
+        InOrder(subtree->right_child);
+    }
+}
+
+void BinaryTree::PostOrder(TreeNode* subtree) {
+    if (subtree != nullptr) {
+        PostOrder(subtree->left_child);
+        PostOrder(subtree->right_child);
+        cout << subtree->value;
+    }
+}
+
+void BinaryTree::LevelOrder() {
+    if (root == nullptr)
+        return;
+    queue<TreeNode*> Q;
+    TreeNode* p = root;
+    Q.push(p);
+    while (!Q.empty()) {
+        p = Q.front();
+        Q.pop();
+        cout << p->value;
+        if (p->left_child != nullptr)
+            Q.push(p->left_child);
+        if (p->right_child != nullptr)
+            Q.push(p->right_child);
+    }
+}
+
 int main() {
     char in[] = {'A','(', 'B', '(', 'D', ',', 'E', '(', 'G', ',', ')', ')', ',', 'C', '(', ',', 'F', ')', ')', '#'};
-    BinaryTree tree;
+    //char pre[] = {'A', 'B', 'C', '#', '#', 'D', 'E', '#', 'G', '#', '#', 'F', '#', '#', '#'};
+    BinaryTree tree;//, tree_pre;
     tree.createBinTree(in);
-    cout << endl;
+    //tree_pre.createBinTree_Pre(pre);
     tree.PreOrder();
     cout << endl;
+    //tree_pre.PreOrder();
+    //cout << endl;
     tree.printBinTree();    
     cout << endl;
     tree.Traverse();
